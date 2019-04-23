@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       post "/login", to: 'users#login', as: :login
+      get '/products', to: 'product#index'
     end
   end
 end
