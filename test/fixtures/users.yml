@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  is_farmer: false
+  description: MyText
+  profile_picture_url: MyString
+  openId: MyString
+
+two:
+  is_farmer: false
+  description: MyText
+  profile_picture_url: MyString
+  openId: MyString
