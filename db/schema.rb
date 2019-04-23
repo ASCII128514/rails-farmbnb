@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_04_23_005222) do
+ActiveRecord::Schema.define(version: 2019_04_23_055704) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,6 +53,14 @@ ActiveRecord::Schema.define(version: 2019_04_23_005222) do
     t.index ["product_id"], name: "index_orders_on_product_id"
   end
 
+  create_table "price_histories", force: :cascade do |t|
+    t.bigint "product_id"
+    t.integer "previous_price"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_price_histories_on_product_id"
+  end
+
   create_table "products", force: :cascade do |t|
     t.string "product_name"
     t.float "product_price"
@@ -86,5 +94,6 @@ ActiveRecord::Schema.define(version: 2019_04_23_005222) do
   add_foreign_key "listings", "users"
   add_foreign_key "orders", "orders"
   add_foreign_key "orders", "products"
+  add_foreign_key "price_histories", "products"
   add_foreign_key "shopping_carts", "users"
 end
