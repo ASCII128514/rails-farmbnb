@@ -6,6 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       post '/login', to: 'users#login', as: :login
       get '/products', to: 'product#index'
+      get '/farmer/:id', to: 'users#farmer_list'
     end
   end
 end
