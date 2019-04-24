@@ -15,7 +15,7 @@ class Api::V1::UsersController < Api::V1::BaseController
       }
     else
       # send info to the wehat api to get open id and store them into the storage
-      token = RestClient.get("https://api.weixin.qq.com/sns/jscode2session?appid=#{APPID}&secret=#{SECRET_KEY}&js_code=sdasds&grant_type=authorization_code")
+      token = RestClient.get("https://api.weixin.qq.com/sns/jscode2session?appid=#{APPID}&secret=#{SECRET_KEY}&js_code=#{params[:code]}&grant_type=authorization_code")
       # parse into json format and store the openid in the hash
       openid = JSON.parse(token)['openid']
       payload = { token: openid }
