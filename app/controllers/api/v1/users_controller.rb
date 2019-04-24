@@ -4,9 +4,12 @@ class Api::V1::UsersController < Api::V1::BaseController
   protect_from_forgery with: :null_session
 
   def login
-    if params[:code].nil?
+    code = params[:code]
+    puts code.nil?
+    if code.nil?
       # retreive the user info if they already have one format: { token: 'token' }
-      authen = params[:authen]
+      a = token_params
+      authen = a['token']
 
       # retrieve the openid from the authen
       openid = decode(authen)
@@ -15,16 +18,18 @@ class Api::V1::UsersController < Api::V1::BaseController
       }
     else
       # send info to the wehat api to get open id and store them into the storage
-      token = RestClient.get("https://api.weixin.qq.com/sns/jscode2session?appid=#{APPID}&secret=#{SECRET_KEY}&js_code=#{params[:code]}&grant_type=authorization_code")
+      token = RestClient.get("https://api.weixin.qq.com/sns/jscode2session?appid=#{ENV['APPID']}&secret=#{ENV['SECRET_KEY']}&js_code=#{params[:code]}&grant_type=authorization_code")
       # parse into json format and store the openid in the hash
       openid = JSON.parse(token)['openid']
       payload = { token: openid }
 
       # store all the info from the user
-      @user = User.new(openId: openid)
+      @user = User.new
+      puts "\n\n\n\n\n"
+      p JSON.parse(token)
+      puts "\n\n\n\n\n"
+      @user.openId = openid
       @user.save
-
-
 
       authen = JWT.encode payload, nil, 'none'
       render json: {
@@ -35,6 +40,9 @@ class Api::V1::UsersController < Api::V1::BaseController
 
   def farmer_list
     token = token_params['token']
+    puts "\n\n\n\n\n"
+    p decode(token)
+    puts "\n\n\n\n\n"
     @user = User.where(openId: decode(token))[0]
     render json: {
       user: @user.products
