@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::ProductsController < ApplicationController
+class Api::V1::ProductsController < Api::V1::BaseController
   protect_from_forgery with: :null_session
 
   def destroy

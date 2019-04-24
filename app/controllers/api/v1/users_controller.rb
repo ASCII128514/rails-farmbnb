@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-class Api::V1::UsersController < ApplicationController
+class Api::V1::UsersController < Api::V1::BaseController
   protect_from_forgery with: :null_session
-
 
   def login
     if params[:code].nil?
