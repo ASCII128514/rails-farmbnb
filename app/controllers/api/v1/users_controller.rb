@@ -19,6 +19,13 @@ class Api::V1::UsersController < Api::V1::BaseController
       # parse into json format and store the openid in the hash
       openid = JSON.parse(token)['openid']
       payload = { token: openid }
+
+      # store all the info from the user
+      @user = User.new(openId: openid)
+      @user.save
+
+
+
       authen = JWT.encode payload, nil, 'none'
       render json: {
         authen: authen
