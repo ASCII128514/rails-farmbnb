@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
-class Api::V1::UsersController < Api::V1::ApplicationController
+class Api::V1::UsersController < ApplicationController
+  protect_from_forgery with: :null_session
+
+
   def login
     if params[:code].nil?
       # retreive the user info if they already have one format: { token: 'token' }

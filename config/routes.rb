@@ -8,6 +8,8 @@ Rails.application.routes.draw do
       get '/products', to: 'product#index'
       # get token from the body
       get '/farmer', to: 'users#farmer_list'
+      # delete the product if the farmer want to do so, need token, product id
+      delete '/product/:id', to: 'products#destroy'
     end
   end
 end
