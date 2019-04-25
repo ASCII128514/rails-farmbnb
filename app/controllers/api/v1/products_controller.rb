@@ -50,6 +50,13 @@ class Api::V1::ProductsController < Api::V1::BaseController
     render json: { user: @products }
   end
 
+  def show
+    @product = Product.find(params[:id])
+    render json: {
+      user: @product
+    }
+  end
+
   private
 
   def token_params
