@@ -45,6 +45,11 @@ class Api::V1::ProductsController < Api::V1::BaseController
     end
   end
 
+  def index
+    @products = Product.all
+    render json: @products
+  end
+
   private
 
   def token_params
