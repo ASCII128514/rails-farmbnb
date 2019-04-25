@@ -25,9 +25,6 @@ class Api::V1::UsersController < Api::V1::BaseController
 
       # store all the info from the user
       @user = User.new
-      puts "\n\n\n\n\n"
-      p JSON.parse(token)
-      puts "\n\n\n\n\n"
       @user.openId = openid
       @user.save
 
