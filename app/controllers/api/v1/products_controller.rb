@@ -54,7 +54,8 @@ class Api::V1::ProductsController < Api::V1::BaseController
     @product = Product.find(params[:id])
     render json: {
       user: @product,
-      farmer: @product.user
+      farmer: @product.user,
+      quantity: @product.listing
     }
   end
 
