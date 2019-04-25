@@ -23,17 +23,20 @@ class Api::V1::ProductsController < Api::V1::BaseController
   def create
     token = token_params[:token]
     @product = Product.new(create_product)
+    p decode(token)
+    p User.where(openId: decode(token)['token'])[0]
     @list = Listing.new
-    @list.product = @product
+
     @list.quantity = params[:quantity]
-    if User.where(openId: decode(token))[0].nil?
+    if User.where(openId: decode(token)['token'])[0].nil?
       render json: {
         status: 403,
         msg: 'invalid user token'
       }
     else
-      @product.user = User.where(openId: decode(token))[0]
+      @product.user = User.where(openId: decode(token)['token'])[0]
       @product.save
+      @list.product = @product
       @list.save
       render json: {
         status: 200,
@@ -54,9 +57,9 @@ class Api::V1::ProductsController < Api::V1::BaseController
   end
 
   def decode(token)
-    puts '--------------------------'
-    p token
-    puts "\n\n\n\n\n\n\n\n\n"
+    # puts '--------------------------'
+    # p token
+    # puts "\n\n\n\n\n\n\n\n\n"
     # decode the jwt token to the open id
     t = JWT.decode token, nil, false
     t[0]
