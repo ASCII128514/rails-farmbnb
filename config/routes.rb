@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       get '/farmer', to: 'users#farmer_list'
       # delete the product if the farmer want to do so, need token, product id
       delete '/product/:id', to: 'products#destroy'
+      post '/product', to: 'products#create'
     end
   end
 end

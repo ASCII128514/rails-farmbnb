@@ -36,11 +36,14 @@ class Api::V1::UsersController < Api::V1::BaseController
   end
 
   def farmer_list
-    token = token_params['token']
+    a = params[:tokens]
+    token = JSON.parse(a)['token']
+    # p decode(token)
     puts "\n\n\n\n\n"
+    p token
     p decode(token)
-    puts "\n\n\n\n\n"
-    @user = User.where(openId: decode(token))[0]
+    @user = User.where(openId: decode(token)['token'])[0]
+    print @user
     render json: {
       user: @user.products
     }

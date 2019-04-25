@@ -20,10 +20,37 @@ class Api::V1::ProductsController < Api::V1::BaseController
     end
   end
 
+  def create
+    token = token_params[:token]
+    @product = Product.new(create_product)
+    @list = Listing.new
+    @list.product = @product
+    @list.quantity = params[:quantity]
+    if User.where(openId: decode(token))[0].nil?
+      render json: {
+        status: 403,
+        msg: 'invalid user token'
+      }
+    else
+      @product.user = User.where(openId: decode(token))[0]
+      @product.save
+      @list.save
+      render json: {
+        status: 200,
+        product: @product
+      }
+    end
+  end
+
   private
 
   def token_params
     params.require(:tokens).permit(:token)
+  end
+
+  def create_product
+    # unit price inventory product name description url
+    params.require(:product).permit(:unit, :product_price, :product_name, :picture_url, :description, :quantity)
   end
 
   def decode(token)
